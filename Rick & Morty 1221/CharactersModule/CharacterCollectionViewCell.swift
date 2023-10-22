@@ -27,27 +27,33 @@ final class CharacterCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
-    // MARK: - Init
+    // MARK: - Initialization
 
     override init(frame: CGRect) {
         super .init(frame: frame)
 
         configureLayout()
-        backgroundColor = UIColor(named: Colors.backgroundCell)
-        layer.cornerRadius = 16
-        layer.masksToBounds = true
+        configureCell()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Functions
+
     func configureData (_ data: CharacterModel) {
         imageCharacter.set(imageURL: data.image)
         nameCharacter.text = data.name
     }
 
-    // MARK: - Layout
+    // MARK: - Private functions
+
+    private func configureCell() {
+        backgroundColor = UIColor(hex: Colors.backgroundCell)
+        layer.cornerRadius = 16
+        layer.masksToBounds = true
+    }
 
     private func configureLayout() {
         addSubview(imageCharacter)

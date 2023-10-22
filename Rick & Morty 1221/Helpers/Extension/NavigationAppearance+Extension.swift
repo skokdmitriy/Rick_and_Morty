@@ -5,13 +5,13 @@
 //  Created by Дмитрий Скок on 17.08.2023.
 //
 
-import UIKit
+import UIKit.UINavigationController
 
 extension UINavigationController {
     func setupNavigationController() {
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithOpaqueBackground()
-        coloredAppearance.backgroundColor = UIColor(named: Colors.background)
+        coloredAppearance.backgroundColor = UIColor(hex: Colors.background)
         coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         UINavigationBar.appearance().standardAppearance = coloredAppearance

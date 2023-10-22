@@ -8,7 +8,7 @@
 import SwiftUI
 
 protocol DetailViewModelProtocol: AnyObject {
-    init (networkManager: NetworkServiceProtocol, router: RouterProtocol, urlCharacter: URL)
+    init (networkService: NetworkServiceProtocol, urlCharacter: URL)
     var episodes: [EpisodeModel] { get set }
     var character: CharacterDetailModel? { get set }
     var isLoading: Bool { get set }
@@ -16,25 +16,21 @@ protocol DetailViewModelProtocol: AnyObject {
 }
 
 final class DetailViewModel: DetailViewModelProtocol, ObservableObject {
-
     @Published var episodes: [EpisodeModel] = []
     @Published var character: CharacterDetailModel?
     @Published var isLoading = true
-    private let router: RouterProtocol?
-    private let networkManager: NetworkServiceProtocol
     private let urlCharacter: URL
+    private let networkService: NetworkServiceProtocol
 
-
-    required init(networkManager: NetworkServiceProtocol, router: RouterProtocol, urlCharacter: URL) {
-        self.networkManager = networkManager
+    init(networkService: NetworkServiceProtocol, urlCharacter: URL) {
+        self.networkService = networkService
         self.urlCharacter = urlCharacter
-        self.router = router
         fetchCharacterDetail()
     }
 
     func fetchCharacterDetail() {
         let url = urlCharacter
-        networkManager.fetchRequest(modelType: CharacterDetailModel.self, with: url) { [weak self] result in
+        networkService.fetchRequest(modelType: CharacterDetailModel.self, with: url) { [weak self] result in
             guard let self else {
                 return
             }
@@ -54,7 +50,7 @@ final class DetailViewModel: DetailViewModelProtocol, ObservableObject {
 
     func fetchEpisodes() {
         character?.episode.forEach { url in
-            networkManager.fetchRequest(modelType: EpisodeModel.self, with: url) { [weak self] result in
+            networkService.fetchRequest(modelType: EpisodeModel.self, with: url) { [weak self] result in
                 guard let self else {
                     return
                 }
@@ -72,11 +68,11 @@ final class DetailViewModel: DetailViewModelProtocol, ObservableObject {
 
     func statusColor(for status: String) -> Color {
         switch status {
-        case Constants.alive:
-            return Color(Colors.greenText)
-        case Constants.dead:
+        case Texts.alive:
+            return Color(hex: Colors.green)
+        case Texts.dead:
             return .red
-        case Constants.unknown:
+        case Texts.unknown:
             return .orange
         default:
             return .gray
