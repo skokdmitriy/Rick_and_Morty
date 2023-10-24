@@ -196,10 +196,10 @@
 		2C6BB18B2AE3B5B50036E28D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2C6BB18C2AE3B5B50036E28D /* EpisodesSectionView.swift */,
-				2C6BB18D2AE3B5B50036E28D /* OriginSectionView.swift */,
-				2C6BB18E2AE3B5B50036E28D /* InfoSectionView.swift */,
 				2C6BB18F2AE3B5B50036E28D /* HeaderView.swift */,
+				2C6BB18E2AE3B5B50036E28D /* InfoSectionView.swift */,
+				2C6BB18D2AE3B5B50036E28D /* OriginSectionView.swift */,
+				2C6BB18C2AE3B5B50036E28D /* EpisodesSectionView.swift */,
 			);
 			name = Views;
 			path = "../../../../../Downloads/Документы/Rick_and_Morty David/Rick & Morty 1221/DetailsModule/Views";

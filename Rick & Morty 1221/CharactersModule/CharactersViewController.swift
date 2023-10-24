@@ -146,7 +146,7 @@ extension CharactersViewController: CharactersViewDelegate {
         switch error {
         case .invalidUrl:
             message = "Invalid URL"
-        case .requestError(_):
+        case .requestError:
             message = "Request Error"
         case .parsingError:
             message = "Parsing Error"
