@@ -12,7 +12,7 @@
 
 Примечание: Цвета и картинки взяты из макета Figma. Для работы с сетью используется URLSession. На остальных экранах во время загрузки данных отображается лоадер.
 
-![Alt-LaunchScreen](https://github.com/skokdmitriy/Rick_and_Morty/blob/feature/readme/Screenshots/LaunchScreen.png) 
-![Alt-MainScreen](https://github.com/skokdmitriy/Rick_and_Morty/blob/feature/readme/Screenshots/MainScreen.png)
-![Alt-DetailScreen](https://github.com/skokdmitriy/Rick_and_Morty/blob/feature/readme/Screenshots/DetailScreen.png)
-![Alt-DetailScreen2](https://github.com/skokdmitriy/Rick_and_Morty/blob/feature/readme/Screenshots/DetailScreen2.png)
+![Alt-LaunchScreen](https://github.com/skokdmitriy/Rick_and_Morty/blob/main/readme/Screenshots/LaunchScreen.png) 
+![Alt-MainScreen](https://github.com/skokdmitriy/Rick_and_Morty/blob/main/readme/Screenshots/MainScreen.png)
+![Alt-DetailScreen](https://github.com/skokdmitriy/Rick_and_Morty/blob/main/readme/Screenshots/DetailScreen.png)
+![Alt-DetailScreen2](https://github.com/skokdmitriy/Rick_and_Morty/blob/main/readme/Screenshots/DetailScreen2.png)
