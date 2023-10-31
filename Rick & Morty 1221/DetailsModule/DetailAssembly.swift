@@ -10,7 +10,7 @@ import UIKit
 final class DetailAssembly {
     static func createModule(urlCharacter: URL) -> UIViewController {
         let networkService = NetworkService()
-        let viewModel = DetailViewModel(networkService: networkService,urlCharacter: urlCharacter)
+        let viewModel = DetailViewModel(networkService: networkService, urlCharacter: urlCharacter)
         let viewController = DetailViewController(viewModel: viewModel)
         return viewController
     }
