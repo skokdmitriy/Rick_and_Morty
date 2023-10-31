@@ -8,8 +8,7 @@
 import Foundation
 
 enum NetworkError: Error {
-    case invalidUrl
-    case requestError(Error)
+    case requestError
     case parsingError
 }
 
@@ -29,10 +28,11 @@ final class NetworkService: NetworkServiceProtocol {
     ) {
 
         let dataTask = session.dataTask(with: url) { data, _, error in
-            if let error {
-                completion(.failure(.requestError(error)))
+            guard error == nil else {
+                completion(.failure(.requestError))
+                return
             }
-
+            
             guard let data else {
                 return
             }

@@ -16,14 +16,13 @@ final class CharactersViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 16
-        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = UIColor(named: Colors.background)
-        collectionView.register(
-          CharacterCollectionViewCell.self,forCellWithReuseIdentifier: Constants.cellIdentifier)
+        collectionView.backgroundColor = UIColor(hex: Colors.background)
+        collectionView.register(CharacterCollectionViewCell.self,
+                                forCellWithReuseIdentifier: Constants.cellIdentifier
+        )
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -31,14 +30,28 @@ final class CharactersViewController: UIViewController {
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView(frame: .zero)
         activityIndicatorView.style = .large
-        activityIndicatorView.color = UIColor(named: Colors.greenText)
+        activityIndicatorView.color = UIColor(hex: Colors.green)
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return activityIndicatorView
     }()
 
-    var viewModel: CharacterViewModelProtocol!
+    // MARK: - Properties
 
-    // MARK: - viewDidLoad
+    let viewModel: CharacterViewModel
+
+    // MARK: - Initialization
+
+    init(viewModel: CharacterViewModel) {
+        self.viewModel = viewModel
+
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,12 +59,13 @@ final class CharactersViewController: UIViewController {
         fetchData()
         configureLayout()
         configureNavigationBar()
+        viewModel.delegate = self
     }
 
-    //MARK: - Private
+    //MARK: - Private functions
 
     private func configureNavigationBar() {
-        title = Constants.title
+        title = Texts.characters
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.backButtonTitle = ""
     }
@@ -76,13 +90,15 @@ final class CharactersViewController: UIViewController {
         ])
     }
 
-    private func showAlertError () {
-        let badInternetAlert = UIAlertController(
-            title: Constants.alertTitle,
-            message: Constants.alertMessage,
-            preferredStyle: .alert
+    private func showAlertError (message: String) {
+        let badInternetAlert = UIAlertController(title: Titles.error,
+                                                 message: message,
+                                                 preferredStyle: .alert
         )
-        badInternetAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+        badInternetAlert.addAction(UIAlertAction(title: Titles.ok,
+                                                 style: .default,
+                                                 handler: { [weak self] _ in
+            guard let self else { return }
             self.fetchData()
         }))
         present(badInternetAlert, animated: true)
@@ -92,16 +108,18 @@ final class CharactersViewController: UIViewController {
 // MARK: - UICollectionViewDataSource
 
 extension CharactersViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.characters?.count ?? 0
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        viewModel.characters.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as? CharacterCollectionViewCell,
-              let character = viewModel.characters?[indexPath.item] else {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as? CharacterCollectionViewCell else {
             return UICollectionViewCell()
         }
 
+        let character = viewModel.characters[indexPath.item]
         cell.configureData(character)
         return cell
     }
@@ -115,13 +133,24 @@ extension CharactersViewController: UICollectionViewDelegate {
     }
 }
 
-extension CharactersViewController: CharactersViewProtocol {
+// MARK: - CharactersViewDelegate
+
+extension CharactersViewController: CharactersViewDelegate {
     func success() {
         self.collectionView.reloadData()
         activityIndicatorView.stopAnimating()
     }
 
-    func failure(error: Error) {
-        showAlertError()
+    func failure(error: NetworkError) {
+        let message: String
+        switch error {
+        case .invalidUrl:
+            message = "Invalid URL"
+        case .requestError:
+            message = "Request Error"
+        case .parsingError:
+            message = "Parsing Error"
+        }
+        showAlertError(message: message)
     }
 }

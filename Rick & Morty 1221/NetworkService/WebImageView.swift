@@ -30,6 +30,7 @@ final class WebImageView: UIImageView, ObservableObject {
         }
         dataTask.resume()
     }
+
     private func handleLoadedImage(data: Data, response: URLResponse) {
         guard let responseURL = response.url else { return }
         let cachedResponse = CachedURLResponse(response: response, data: data)

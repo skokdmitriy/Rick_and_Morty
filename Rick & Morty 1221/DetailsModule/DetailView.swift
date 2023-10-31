@@ -12,11 +12,11 @@ struct DetailView: View {
 
     var body: some View {
         ZStack {
-            Color(Colors.background).ignoresSafeArea()
+            Color(hex: Colors.background).ignoresSafeArea()
 
             if viewModel.isLoading {
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color(Colors.greenText)))
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color(hex: Colors.green)))
             } else {
                 ScrollView {
                     VStack(spacing: .zero) {
@@ -35,7 +35,7 @@ struct DetailView: View {
 
     private func makeEpisodesSection() -> some View {
         VStack(alignment: .leading, spacing: .zero) {
-            Text(Constants.textEpisodes)
+            Text(Texts.episodes)
                 .foregroundColor(.white)
                 .font(.system(size: 17))
                 .fontWeight(.semibold)
