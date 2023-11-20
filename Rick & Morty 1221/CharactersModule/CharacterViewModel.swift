@@ -5,7 +5,6 @@
 //  Created by Дмитрий Скок on 19.08.2023.
 //
 
-import Foundation
 import UIKit
 
 protocol CharactersViewDelegate: AnyObject {
